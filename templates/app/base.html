@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BT Speed Tool</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"/>
+    <link rel='stylesheet' href='{% static 'css/style.css' %}' >
+  
+    <link href="/static/speedtool/css/app.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+      var openSpeedTestServerList = [
+         {"ServerName":"Home", "Download":"/static/speedtool/speed-test-files/downloading", "Upload":"/static/speedtool/speed-test-files/upload", "ServerIcon":"DefaultIcon"}
+       ];
+         var pingSamples = 10;
+         var setPingSamples = true;
+         var pingTimeOut = 500;   
+         var setPingTimeout = true;
+         var pingMethod = "GET";
+         var pingFile = "Upload";  
+         var ulDataSize = 30;
+         var ulDelay = 300;
+         var dlDelay = 300;
+         var upAdjust = 1.04;
+         var dlAdjust = 1.04;
+         var enableClean = true;
+         var dlDuration = 12;
+         var ulDuration = 12;
+         var dlThreads = 6;
+         var ulThreads = 6;
+         var setHTTPReq = true;
+         var saveData = false;
+         var saveDataURL = "//yourDatabase.Server.com:4500/save?data=";
+         var stressTest = true;
+         var selectTest = true;
+         var selectServer = true;
+         var enableRun = true;
+     function ostOnload() {
+           console.log("")
+         }
+       var openChannel = "dev";
+       </script>
+  </head>
+  <body>
+<div class="container navbar-set">
+  <div class="row">
+    <div class="col-md-12">
+      <nav
+        class="navbar navbar-expand-lg navbar-dark text-dark fixed-top nav-ad">
+        <button
+          class="navbar-toggler text-white"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon text-white">
+            <i class="fa fa-navicon"></i
+          ></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto pl-5">
+            <li class="nav-item active">
+              <a class="nav-link text-dark" href="#home">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#speedtest">Speed test</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#recommendedpackages">Recommended Packages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#speedissues">Speed issues</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#contactus">Contact us</a>
+            </li>
+            
+          </ul>
+        </div>
+      </nav>
+      {% for message in messages  %}            
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" style="margin-top: 100px;margin-bottom:-70px;" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              </button>
+            </div>
+            {% endfor %}
+    </div>
+  </div>
+</div>    
+{% block body %} {% endblock body %}
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/static/speedtool/js/app-2.5.1.js"></script>
+       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TNQCBKZ');</script>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TNQCBKZ"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  </body>
+</html>

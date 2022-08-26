@@ -1,0 +1,370 @@
+{% extends 'app/base.html' %} {% load static %} {% block body %}
+<div class="container" id="home">
+  <div class="row abd">
+    <div class="col-sm-6 col-md-6 check-adjust">
+      <h1 class="adjust" id="home">
+        Broadband Speed <br>
+        Checker.
+      </h1>
+      <p class="mt-2">
+        UK No.1 Broadband Speed Test,<br />
+        Test Internet Speed in under 20 seconds.
+      </p>
+      <a href="#speedtest" type="button" class="btn btn-primary btn-lg mt-2 learn">
+        Learn More
+      </a>
+      <!-- <button
+        type="button"
+        class="btn btn-outline-primary btn-lg mt-2 signup-btn ml-3">
+        SignUp
+      </button> -->
+    </div>
+
+    <div class="col-sm-6 col-md-6 bt-logo">
+      <img
+        src="{% static 'images/image.png' %}"
+        alt="Bt logo"
+        class="img-fluid start-img"
+      />
+      <img src="{% static 'images/play btn.png' %}" alt="Bt logo" class="img-fluid play-bt"/> 
+    </div>
+    <!-- <span class="bg-image"></span> -->
+  </div>
+  <div class="row ">
+    <div class="col-md-12">
+      <h2 class="test-use">
+        These test can be used to:
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row mb-5 row-adj">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4 ">
+          <div class="card pb-3">
+            <div class="col-md-12 i-bg mt-4 ml-3 ">
+                <img src="{% static 'images/verified.png' %}" alt="Bt logo"> </span>
+            </div>
+            <div class="col-md-12 mt-4">
+                <h4>Verified</h4>
+                <p>Verify that you are recieving what you have paid for. </p>
+            </div>
+</div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+<div class="card pb-4">
+            <div class="col-md-12 i-bg mt-4 ml-3">
+          
+                <img src="{% static 'images/online-video.png' %}" alt="Bt logo"/> </span>
+            </div>
+            <div class="col-md-12 mt-4">
+                <h4>Streaming</h4>
+                <p>Determine how much Streaming you can handle. </p>
+            </div>
+        </div></div>
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+<div class="card pb-4">
+            <div class="col-md-12 i-bg mt-4 ml-3">
+                <img src="{% static 'images/console.png' %}" alt="Bt logo"> </span>
+            </div>
+            <div class="col-md-12 mt-4">
+                <h4>Gaming</h4>
+                <p>Examine how well your games will perform. </p>
+            </div>
+        </div></div>
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+<div class="card ">
+            <div class="col-md-12 i-bg mt-4 ml-3">
+                <img src="{% static 'images/audio-message.png' %}" alt="Bt logo"> </span>
+            </div>
+            <div class="col-md-12 mt-3">
+                <h4>Confrences</h4>
+                <p>Check out the voice conferencing quality that you may expect. </p>
+            </div>
+        </div></div>
+    </div>
+</div>
+
+
+<div class="container">
+  <div class="row ml2 mt-5">
+    <div class="col-md-12 col-12">
+      <h2  class=""> How do we conduct Internet Speed Test ?</h2>
+      <p>Our tool will assess your connection speed by downloading and uploading small pieces of data <br> to our UK server when you run the speed test.
+      </p>
+</div>
+  </div>
+</div>
+<section style="background-color: #5515b4;">
+      <div class="container">
+        <div class="row">
+<h1 class="text-white ml-5 mt-5" style="margin-bottom: -40px;" id="speedtest">Speed Meter</h1>
+      {% include 'app/speed.html' %}
+    </div>
+    </div>
+</section>
+
+<div class="container">
+  <div class="row  speed-test justify-content-center">
+    <div class="col-md-12 col-12 text-center">
+<img src="/static/images/speed-table.jpg" alt="Speed Table" class="img-fluid my-5" width="1000px">
+      <!-- <h2  class="ml"> Speed needed for Streaming:</h2>
+    <div class="tabl text-center mt-4">
+      <table class="table table-bordered">
+        <thead>
+         
+           <tr >
+            <th scope="col">QUALITY</th>
+            <th scope="col">SPEED IN Mb/s</th>
+            <th scope="col">RESOLUTION</th>
+           </tr>
+
+  
+        </thead>
+        <tbody>
+          <tr>
+           
+            <td class="stan">Standard <br> Defination</td>
+            <td>2</td>
+            <td>854x480, 640x480</td>
+          </tr>
+          <tr>
+            
+            <td class="stan">HD 720</td>
+            <td>1.5 - 4.0</td>
+            <td>1280x720, 960x720</td>
+          </tr>
+          <tr>
+            <td class="stan">HD 1080</td>
+            <td>3 - 6</td>
+            <td>1920x1080, 1440x1080</td>
+          </tr>
+          <tr>
+            <td class="stan">HD 1440</td>
+            <td>6 - 13</td>
+            <td>2560x1440</td>
+          </tr>
+          <tr>
+            <td class="stan">4K 2160</td>
+            <td>13 - 34</td>
+            <td>3840x2160 </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>   -->
+    
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+
+  <div class="row  mt-5">
+    <div class="col-md-12">
+      <h2  class="m-l" id="recommendedpackages">
+        <span>
+        <img src="{% static 'images/like.svg' %}" alt="Bt logo" class="like-logo" /> 
+      </span>
+        Recommended BT Fibre Broadband Connections:</h2>
+    </div>
+  </div>
+
+<div class="row pkg"  >
+  <div class="col-lg-4 col-md-6 small-scr mb-3">
+    <img src="{% static 'images/Mask.png' %}" alt="Bt logo" class="mask" /> 
+
+    <div class="col-sm-12 col-md-12 col-12 p-box">
+      <p class="pt-2"><b> BT Fibre Broadband Fast</b><br>
+      <span><span>£34.99</span>/ month</span>
+    </p>
+
+    <div class="row">
+    <div class="col-sm-8 col-md-8 col-9 text-left">With free wifi router</div>
+    <div class="col-sm-4 col-md-4 col-3">
+      <button type="button" class="btn btn-primary btn-sm btn-adj" onclick="location.href='https://bt-fibre-broadband.co.uk/#broadband'">Find More</button>
+    </div>
+  </div>
+
+    </div> 
+
+  </div>
+
+
+  <div class="col-lg-4 col-md-6  small-scr mb-3">
+    <img src="{% static 'images/Mask.png' %}" alt="Bt logo" class="mask" /> 
+    <div class="col-sm-12 col-md-12 col-12 p-box">
+      <p class="pt-2"><b> BT Fibre Broadband Super Fast</b><br>
+      <span><span>£39.99</span>/ month</span>
+    </p>
+
+    <div class="row">
+    <div class="col-sm-8 col-md-8 col-9 text-left">With free wifi router</div>
+    <div class="col-sm-4 col-md-4 col-3">
+      <button type="button" class="btn btn-primary btn-sm btn-adj" onclick="location.href='https://bt-fibre-broadband.co.uk/#broadband'">Find More</button>
+    </div>
+  </div>
+
+    </div> 
+  </div>
+  <div class="col-lg-4 col-md-6 small-scr mb-3">
+    <img src="{% static 'images/Mask.png' %}" alt="Bt logo" class="mask" /> 
+    <div class="col-sm-12 col-md-12 col-12 p-box">
+      <p class="pt-2"><b>ROKU Express 4K TV</b><br>
+      <span><span>£6</span>/ month</span>
+    </p>
+
+    <div class="row">
+    <div class="col-sm-9 col-md-9 col-9 text-left">Enjoy 3 month STARZPLAY</div>
+    <div class="col-sm-3 col-md-3 col-3">
+      <button type="button" class="btn btn-primary btn-sm btn-adj" onclick="location.href='https://bt-fibre-broadband.co.uk/#TV'">Add</button>
+    </div>
+  </div>
+
+    </div> 
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="container" id="speedissues">
+  <div class="row mt-5 text-center" >
+    <div class="col-md-12 col-12">
+      <h2  class=""> What causes my speed to fluctuate ?</h2>
+      <p>For a variety of response, speeds can change during the day. You may learn more about how to improve <br>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="row mt-5 text-center" >
+    <div class="col-md-12 col-12">
+      <h2  class=""> These are some of the reasons:</h2>
+      <ul class="ul" >
+     <li>Interference with Wi-Fi (from outside your home as well as from your own devices)</li>
+     <li>Update to your device, software and download( Mobile devices and TV's as well as computers )</li>
+     <li>Others on the same ISP exchange are using the internet more.</li>
+     <li>Problem wth your internet service provider that are only temporary.</li>
+     <li>Programs that are currently running on your PC ( including browser extensions )</li>
+     <li>Having issues with your router, cable tat are faulty</li>
+    </ul>
+    </div>
+  </div>
+</div>
+<div class="container contact-form" id="contactus">
+  <div class="contact-image">
+      <img src="https://image.ibb.co/kUagtU/rocket_contact.png" class="mt-4" alt="rocket_contact"/>
+  </div>
+      <h3 class="mt-4 mb-3">Contact Us:</h3>
+      <p class="mb-0">Fill the from and get us a message. We will get back to you soon!</p>
+      <form action="{% url 'contact' %}" method="POST" class="mt-0">
+        {% csrf_token %}
+     <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name *" value="" required>
+              </div>
+              <div class="form-group">
+                  <input type="email" name="email" class="form-control" placeholder="Your Email *" value="" required>
+              </div>
+              <div class="form-group">
+                  <input type="text" name="phone" class="form-control" placeholder="Your Phone Number *" value="" required>
+              </div>
+             
+          </div>
+          <div class="col-md-6">
+              <div class="form-group">
+              <textarea name="message" class="form-control" placeholder="Your Message *" rows="5"></textarea>
+              </div>
+          </div>
+          <div class="col-md-6">
+          <div class="form-group">
+          <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
+        </div>
+      </div>
+      </div>
+  </form>
+</div>
+<div class="container-fluid bg-set containerr">
+  <div class="container">
+  <div class="row">
+    <div class="col-md-12 col-12 ">
+    <img src="{% static 'images/footer logo.png' %}" alt="Bt Logo"   class="logo-im img-fluid mt-3"/> </span>
+    </div>
+  </div>
+
+  <div class="row abd">
+    <div class="col-md-6 col-sm-6 col-12 pt-5">
+<div class="row">
+      <span class="mb-2 col-md-3 col-12"><a href="" class="text-dark" data-toggle="modal" data-target="#cookiepolicy">
+        Privacy Policy
+        </a></span>
+        
+      <span  class="mb-2  col-md-3 col-12"><a href="" class="text-dark" data-toggle="modal" data-target="#GDPRPrivacyPolicy">
+        Disclaimer
+        </a></span >
+
+      <span class="mb-2 col-md-3 col-12"><a href="" class="text-dark" data-toggle="modal" data-target="#cookiepolicy">
+          Cookie Policy
+        </a></span>
+</div>      
+    </div>
+    <div class="col-md-6 col-sm-9 second">
+      <section class="home-newsletter">
+        <div class="container">
+        <div class="row">
+        <div class="col-sm-12">
+          <div class="single">
+            <h2>Get the fresh news from us.</h2>
+          <form action="{% url 'subscribe' %}" method="POST">
+          {% csrf_token %}
+          <div class="input-group">
+                 <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                 <span class="input-group-btn">
+                 <button class="btn btn-theme" type="submit">Subscribe</button>
+                 </span>
+                  </div>
+          </form>
+          </div>
+        </div>
+        </div>
+        </div>
+        </section>
+    </div>
+    </div>
+<hr>
+    <div class="row pb-3">
+      <div class="col-md-6 col-sm-6 col-12">
+<div class="row footer-link">
+        <span class="mb-2 col-md-4 col-12"><a href="" data-toggle="modal">
+          Terms & Conditions
+          </a></span>
+        <span  class="mb-2  col-md-4 col-12"><a href="" data-toggle="modal">
+          Accessibilty
+          </a></span >
+        <span class="mb-2 col-md-4 col-12"><a href="" data-toggle="modal">
+           Legal
+          </a></span>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 col-12 copyright">
+        <span>
+          © BT Fibre Broadband 2022
+         </span>
+      </div>
+  </div>
+</div>
+</div>
+{% endblock body %}
+<span>   
