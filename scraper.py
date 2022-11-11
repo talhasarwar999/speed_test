@@ -170,27 +170,29 @@ def fetch_cookies():
         sfh.write(storage)
 
 
-def parse_post(done_posts, page_info=None):
+def parse_post(done_posts, page_info=None, count=0, content=None):
     actions = ActionChains(driver)
     if not os.path.exists(f"{username}-done_posts.txt"):
         with open(f"{username}-done_posts.txt", mode="w") as file:
             file.write("")
     with open(f"{username}-done_posts.txt", mode="r") as file:
         urls = file.readlines()
-    play_count = 0
+    play_count = count
     for post in driver.find_elements(By.XPATH,
                                      "//div[@class='_ac7v _aang']//a[@role='link'] | //div[@class='_ac7v _abq4']//a[@role='link']"):
         # scroll_to_element_smoothly(driver, post)
         tag_list = []
-        play_count += 1
+
         post_url = post.get_attribute('href')
         if post_url.replace('/p/', '/reel/') + "\n" in urls or post_url + "\n" in urls:
             continue
         if post_url not in done_posts:
             done_posts.append(post_url)
             time.sleep(3)
+            play_count += 1
             try:
-                no_of_plays = find_element(post, f"//a[@role='link']//div[@class='_aajy']//span").text
+
+                no_of_plays = post.find_element(By.XPATH, f".//div[@class='_aacl _aacp _aacw _aad3 _aad6']//span").text
             except:
                 no_of_plays = ''
 
@@ -209,9 +211,9 @@ def parse_post(done_posts, page_info=None):
             try:
                 driver.find_element(By.XPATH, "//h2[contains(text(), \"Sorry, this page isn't available.\")]")
                 driver.get(driver.current_url)
-                with open(f"{username}-done_posts.txt", mode="a+") as file:
+                with open(f"scraped_data/{username}-done_posts.txt", mode="a+") as file:
                     file.write(post_url + "\n")
-                with open(f"{username}-done_posts.txt", mode="r") as file:
+                with open(f"scraped_data/{username}-done_posts.txt", mode="r") as file:
                     urls = file.readlines()
             except:
                 pass
@@ -223,26 +225,34 @@ def parse_post(done_posts, page_info=None):
                 posted_date = ''
                 print("posted_date not found")
             ele = find_element(driver, ".//div[@class='s8sjc6am mczi3sny pxtik7zl b0ur3jhr']//div[@role='button']")
-            actions.move_to_element(ele).click().perform()
-
-            post_info = [posted_date, post_likes, post_comments, no_of_plays, tag_list, post_url,
+            #actions.move_to_element(ele).click().perform()
+            tags = ' '.join(tag_list)
+            post_info = [content, posted_date, post_likes, post_comments, no_of_plays, tags, post_url,
                          username]
             # post_info.extend(page_info)
             print(post_info)
             with open(output_file_name, mode="a+", newline='', encoding='utf-16') as file:
                 writer = csv.writer(file)
                 writer.writerow(post_info)
-            with open(f"{username}-done_posts.txt", mode="a+") as file:
+            with open(f"scraped_data/{username}-done_posts.txt", mode="a+") as file:
                 file.write(post_url + "\n")
 
+            ele = find_element(driver, ".//div[@class='x10l6tqk x160vmok x1eu8d0j x1vjfegm']//div[@role='button']");
+            actions.move_to_element(ele).click().perform()
 
+
+    return play_count
 def start():
     start_height = 0
     end = 500
     done_posts = []
     #
-    url_list = [f"https://www.instagram.com/{username}/reels/", f"https://www.instagram.com/{username}/"]
+    url_list = [f"https://www.instagram.com/{username}/reels/",f"https://www.instagram.com/{username}/"]
     for url in url_list:
+        content = "picture"
+        if 'reels' in url:
+            content = "video"
+
         driver.get(url)
         time.sleep(10)
         no_of_posts = find_element(driver, "//*[contains(text(), 'posts')]//span").text
@@ -270,14 +280,15 @@ def start():
         image = find_element(driver, "//header//img[contains(@alt, 'profile picture')]").get_attribute('src')
         page_info = [no_of_posts, no_of_followers, no_of_following, website, name, pronoun, business_category,
                      bio, image]
-        with open(f'{date}-{username}-profile-core.csv', "a+", newline="", encoding="utf-16") as core_file:
+        with open(f'scraped_data/profile-{username}-{date}.csv', "a+", newline="", encoding="utf-16") as core_file:
             writer = csv.writer(core_file)
             writer.writerow(page_info)
         doc_height = driver.execute_script(f"window.scrollTo({start_height}, {150}); return document.body.scrollHeight")
+        play_count = 0
         while end != doc_height:
             try:
                 doc_height = driver.execute_script("return document.body.scrollHeight")
-                parse_post(done_posts)
+                play_count = parse_post(done_posts, count=play_count, content=content)
                 try:
                     driver.execute_script(
                         f"window.scrollTo({doc_height}, document.body.scrollHeight); return document.body.scrollHeight"
@@ -321,20 +332,21 @@ if __name__ == "__main__":
         usernames = json.load(json_file)
     for username in usernames:
         date = datetime.now().strftime("%Y-%m-%d")
-        output_file_name = f'{date}-{username}-post-details.csv'
+        output_file_name = f'scraped_data/post-{username}-{date}.csv'
         profile_core_headers = ['No of Posts',
                                 'No of Followers',
                                 'No of Followings', 'website', 'Full Name', 'Pronoun', 'Business Category', 'Bio',
                                 'Image']
-        profile_core_file = f'{date}-{username}-profile-core.csv'
+        profile_core_file = f'scraped_data/profile-{username}-{date}.csv'
         if not os.path.exists(profile_core_file):
             with open(profile_core_file, mode="w", newline='', encoding="utf-16") as profile_core:
                 writer = csv.writer(profile_core)
                 writer.writerow(profile_core_headers)
         if not os.path.exists(output_file_name):
-            with open(output_file_name, mode="w", newline='') as file:
+            with open(output_file_name, mode="w", newline='', encoding="utf-16") as file:
                 writer = csv.writer(file)
                 writer.writerow(
-                    ['Posted Date', 'Likes', 'Comments', 'No of Plays', 'Hash Tags', 'Post URL', 'UserName'])
+                    ['Content', 'Posted Date', 'Likes', 'Comments', 'No of Plays', 'Hash Tags', 'Post URL', 'UserName'])
 
         start()
+

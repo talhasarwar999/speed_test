@@ -1,3 +1,4 @@
+from selenium.common.exceptions import TimeoutException 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -55,6 +56,7 @@ def create_undetected_driver():
         options = uc.ChromeOptions()
         options.add_argument('--incognito')
         options.add_argument("--log-level=3")
+        #options.add_argument('--headless')
         options.add_argument(
             "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36")
         driver = uc.Chrome(version=105, options=options)
@@ -84,10 +86,12 @@ def find_elements(driver, xpath):
     return list(driver.find_elements(By.XPATH, xpath))
 
 
-def find_element(driver, xpath, timeout=20):
-    element = WebDriverWait(driver, timeout).until(
-        EC.visibility_of_element_located((By.XPATH, xpath)))
-    return element
+def find_element(driver, xpath, timeout=2):
+        try:
+            element = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+            return element
+        except TimeoutException as e:
+            print(e)
 
 
 def scroll_to_element_smoothly(driver, element):
