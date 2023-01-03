@@ -1,0 +1,5 @@
+.idea/
+venv/
+scraped_data/
+._Podfile
+.__Podfile

@@ -6,8 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-import undetected_chromedriver.v2 as uc
-from scrapy import Selector
+import undetected_chromedriver as uc
 from selenium_stealth import stealth
 
 
@@ -34,9 +33,9 @@ def click_on_element(driver, xpath):
     el.click()
 
 
-def get_page_source(driver):
-    html = driver.page_source
-    return Selector(text=html)
+# def get_page_source(driver):
+#     html = driver.page_source
+#     return Selector(text=html)
 
 
 def insert_value_and_press_enter(driver, xpath, text, previouse_clear=False):

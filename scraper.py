@@ -8,6 +8,7 @@ import os
 import json
 from datetime import datetime
 from selenium.webdriver import ActionChains
+from concurrent.futures import ThreadPoolExecutor
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 all_followers = []
@@ -114,8 +115,8 @@ def getting_followers(username):
             end_scroll += 500
 
 
-def apply_session():
-    driver.get("https://instagram.com")
+def apply_session(driver):
+    driver.get("https://www.instagram.com/talhasarwar8376/")
     cfh = open(
         os.path.join(BASE_DIR, "sessions", f"adnan_instagram_cookies.json"),
         encoding="utf-8",
@@ -170,12 +171,12 @@ def fetch_cookies():
         sfh.write(storage)
 
 
-def parse_post(done_posts, page_info=None, count=0, content=None):
+def parse_post(driver, output_file_name, username, done_posts, page_info=None, count=0, content=None):
     actions = ActionChains(driver)
     if not os.path.exists(f"{username}-done_posts.txt"):
-        with open(f"{username}-done_posts.txt", mode="w") as file:
+        with open(f"scraped_data/{username}-done_posts.txt", mode="w") as file:
             file.write("")
-    with open(f"{username}-done_posts.txt", mode="r") as file:
+    with open(f"scraped_data/{username}-done_posts.txt", mode="r") as file:
         urls = file.readlines()
     play_count = count
     for post in driver.find_elements(By.XPATH,
@@ -242,12 +243,12 @@ def parse_post(done_posts, page_info=None, count=0, content=None):
 
 
     return play_count
-def start():
+def start(driver, output_file_name, username):
     start_height = 0
     end = 500
     done_posts = []
     #
-    url_list = [f"https://www.instagram.com/{username}/reels/",f"https://www.instagram.com/{username}/"]
+    url_list = [f"https://www.instagram.com/{username}/reels/", f"https://www.instagram.com/{username}/"]
     for url in url_list:
         content = "picture"
         if 'reels' in url:
@@ -255,12 +256,15 @@ def start():
 
         driver.get(url)
         time.sleep(10)
+
         no_of_posts = find_element(driver, "//*[contains(text(), 'posts')]//span").text
+
         no_of_followers = find_element(driver, "//*[contains(text(), ' followers')]//span").text
         # find_element(driver, "//*[contains(text(), ' followers')]//span").click()
         # getting_followers(driver, no_of_followers)
         no_of_following = find_element(driver, "//*[contains(text(), ' following')]//span").text
         name = find_element(driver, "//main[@role='main']//ul//following-sibling::div/span").text
+
         try:
             pronoun = driver.find_element(By.XPATH, "//span[@class='_aacl _aacp _aacu _aacy _aad7 _aade']").text
         except:
@@ -269,7 +273,7 @@ def start():
             business_category = driver.find_element(By.XPATH,
                                                     "//div[@class='_aacl _aacp _aacu _aacy _aad6 _aade']").text
         except:
-            business_category = None
+             business_category = None
         bio = find_elements(driver, "//div[@class='_aacl _aacp _aacu _aacx _aad6 _aade']")[-1].text
         try:
             website = \
@@ -288,7 +292,7 @@ def start():
         while end != doc_height:
             try:
                 doc_height = driver.execute_script("return document.body.scrollHeight")
-                play_count = parse_post(done_posts, count=play_count, content=content)
+                play_count = parse_post(driver, output_file_name, username, done_posts, count=play_count, content=content)
                 try:
                     driver.execute_script(
                         f"window.scrollTo({doc_height}, document.body.scrollHeight); return document.body.scrollHeight"
@@ -306,30 +310,35 @@ def start():
                 print(f"Page is not loading more ...", e)
 
 
+
 def fetch_followers():
     pass
 
+def set_up_threads(data):
+    drivers = [create_undetected_driver() for _ in range(7)]
+
+    for driver in drivers:
+        apply_session(driver)
+
+    with ThreadPoolExecutor(max_workers=7) as executor:
+        return executor.map(start,
+                            drivers,
+                            data["output_file_names"],
+                            data["usernames"],
+                            timeout = 60)
 
 if __name__ == "__main__":
-    # username = "givemeabrake0918"
-
-    driver = create_undetected_driver()
     # fetch_cookies()
-    apply_session()
-    # with open("following_time.txt", mode="a+", newline="") as file:
-    #     file.write(datetime.now().strftime("%H:%M:%S %Y:%m:%d"))
-    # getting_followings(username)
-    # with open("following_time.txt", mode="a+", newline="") as file:
-    #     file.write("\n")
-    #     file.write(datetime.now().strftime("%H:%M:%S %Y:%m:%d"))
-    # with open("follower_time.txt", mode="a+", newline="") as file:
-    #     file.write(datetime.now().strftime("%H:%M:%S %Y:%m:%d"))
-    # getting_followers(username)
-    # with open("follower_time.txt", mode="a+", newline="") as file:
-    #     file.write("\n")
-    #     file.write(datetime.now().strftime("%H:%M:%S %Y:%m:%d"))
+    driver = create_undetected_driver()
+    apply_session(driver)
     with open("usernames.json", mode="r") as json_file:
         usernames = json.load(json_file)
+
+    n_threads = 32 # no of threads
+
+    data = {'usernames': [],
+            'output_file_names': []}
+
     for username in usernames:
         date = datetime.now().strftime("%Y-%m-%d")
         output_file_name = f'scraped_data/post-{username}-{date}.csv'
@@ -348,5 +357,9 @@ if __name__ == "__main__":
                 writer.writerow(
                     ['Content', 'Posted Date', 'Likes', 'Comments', 'No of Plays', 'Hash Tags', 'Post URL', 'UserName'])
 
-        start()
+        data['usernames'].append(username)
+        data['output_file_names'].append(output_file_name)
+        start(driver, output_file_name, username)
+
+    #set_up_threads(data)
 
